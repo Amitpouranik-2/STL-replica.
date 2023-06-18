@@ -49,3 +49,86 @@ and many more…
 * Taking array class as a guidance I have created a class named `TMArrayList` which is used to store multiple values in a single variables for each value.
 
 * Taking forward_list class of STL as a guidance I have created a class named `TMForwardList`. Alike forward_list, it implements Singly Linked List. It supports fast insertion and retrieval of elements from anywhere in the list.
+
+
+ ## CODE
+
+
+* [Macros](#macros)
+* [Iterator-Class](#iterator-class) 
+    
+## Macros 
+***
+### Description  :
+
+* To `create` Macros
+   ```c
+   #define bool int
+   #define true 1
+   #define True 1
+   #define TRUE 1
+   #define False 0
+   #define FALSE 0
+   #define false 0
+   ```
+
+## Iterator 
+
+   
+* To 'create' Iterator
+  ```c
+   class Iterator
+   {
+   private:
+   int ReleaseIteratorAfterIteration;
+   Iterator *iterator;
+   public:
+   Iterator()
+   {
+   this->ReleaseIteratorAfterIteration=1;
+   this->iterator = NULL;
+   }
+   Iterator( Iterator *iterator)
+   {
+   this->ReleaseIteratorAfterIteration=1;
+   this->iterator = iterator;
+   }
+   Iterator(const Iterator &other)
+   {
+   this->ReleaseIteratorAfterIteration=1;
+   this->iterator = other.iterator;
+   } 
+   virtual ~Iterator()
+   {
+   if(this->ReleaseIteratorAfterIteration=1) delete this->iterator;
+   }
+   
+   void  setReleaseIteratorAfterIteration(int ReleaseIteratorAfterIteration)
+   {
+   this->ReleaseIteratorAfterIteration = ReleaseIteratorAfterIteration;
+   }
+
+   Iterator & operator=(const Iterator &other)
+   {
+   this->iterator = other.iterator;
+   return *this;
+   }  
+
+   virtual int hasmoreelement()
+   {
+   if(iterator!=NULL) return this->iterator->hasmoreelement();
+   return 0;
+   }
+
+   virtual int next()
+   {
+   if(iterator!=NULL) return  this->iterator->next();
+   return 0;
+   }
+   };
+   class iterable
+   {
+   public:
+   virtual Iterator getiterator()=0;
+   };
+   ```
