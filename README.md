@@ -49,3 +49,195 @@ and many more…
 * Taking array class as a guidance I have created a class named `TMArrayList` which is used to store multiple values in a single variables for each value.
 
 * Taking forward_list class of STL as a guidance I have created a class named `TMForwardList`. Alike forward_list, it implements Singly Linked List. It supports fast insertion and retrieval of elements from anywhere in the list.
+
+## TM LIST
+
+
+
+  ```c
+       class TMlist
+       {
+       public:
+       virtual void add(  int data , bool *success)=0;
+       virtual void insert(int index, int data, bool *success)=0;
+       virtual void update(int index , int data, bool *success)=0;
+       virtual int get(int index , int *success) const=0;
+       virtual int getsize()const=0 ;
+       virtual int  remove(int index , int  *success)=0;
+       virtual void removeall()=0;
+       virtual void clear()=0;
+       };
+
+  ```
+  
+
+
+
+
+
+## Array List
+
+     ✅` Link Below `👇
+* [Macros](#macros)
+* [Iterator](#iterators)
+
+    
+***
+### Macros
+* To `create` Macros
+   ```c
+    #define bool int
+    #define true 1
+    #define True 1
+    #define TRUE 1
+    #define False 0
+    #define FALSE 0
+    #define false 0
+   ```
+   
+### Iterators
+    
+* To `create` Iterator
+    
+
+    ```c
+     class Iterator
+     {
+     private:
+     int ReleaseIteratorAfterIteration;
+     Iterator *iterator;
+     public:
+     Iterator()
+     {
+     this->ReleaseIteratorAfterIteration=1;
+     this->iterator = NULL;
+     }
+     Iterator( Iterator *iterator)
+     {
+     this->ReleaseIteratorAfterIteration=1;
+     this->iterator = iterator;
+     }
+     Iterator(const Iterator &other)
+     {
+     this->ReleaseIteratorAfterIteration=1;
+     this->iterator = other.iterator;
+     } 
+     virtual ~Iterator()
+     { 
+    if(this->ReleaseIteratorAfterIteration=1) delete this->iterator;
+     }
+
+    void  setReleaseIteratorAfterIteration(int ReleaseIteratorAfterIteration)
+     {
+    this->ReleaseIteratorAfterIteration = ReleaseIteratorAfterIteration;
+    }
+
+    Iterator & operator=(const Iterator &other)
+    {
+    this->iterator = other.iterator;
+    return *this;
+    } 
+
+    virtual int hasmoreelement()
+    {
+    if(iterator!=NULL) return this->iterator->hasmoreelement();
+    return 0;
+     }
+
+    virtual int next()
+    {
+    if(iterator!=NULL) return  this->iterator->next();
+    return 0;
+    }
+    };
+
+    class iterable
+    {
+    public:
+    virtual Iterator getiterator()=0;
+    };
+
+
+
+
+class TMArrayList : public TMlist
+{
+private:
+char allocationFlag; 
+int **ptr;
+int capacity;
+int size;
+int addrow();
+
+
+
+public:
+TMArrayList();
+TMArrayList(int buffersize);
+TMArrayList(const TMArrayList &other);
+TMArrayList(const TMlist &other);
+TMArrayList & operator=(const TMArrayList &other);
+TMArrayList & operator=(const TMlist &other);
+TMArrayList  operator+(const TMArrayList &other);
+TMArrayList  operator+(const TMlist &other);
+void  operator+=(const TMArrayList &other);
+void  operator+=(const TMlist &other);
+virtual ~TMArrayList();
+void add( int data , bool *success);
+void insert(int index , int data , bool *success);
+void update(int index, int data , bool *success);
+int  get(int index , int *success)const;
+int getsize() const ;
+void clear();
+void removeall();
+int remove(int index , int *success);
+};
+
+   
+  
+
+* To `get size` of Singly Linked List
+  ```c
+  int getsizeofSinglylinkedlist(Singlylinkedlist *singlylinkedlist);
+  ```
+  `int size;`  
+  `size=getsizeofSinglylinkedlist(list);`  
+* To `get an element` from Singly Linked List  
+  ```c
+  void * getfromSinglylinkedlist(Singlylinkedlist *singlylinkedlist,int index,bool *success);
+  ```
+  `bool success;`  
+  `void * ptr;`  
+  `int index;`  
+  `ptr=getfromSinglylinkedlist(list,index,&success);`  
+  if(`success==true`) element is received in ptr.  
+  if(`success==false`) element is not received int ptr.  
+
+* To `merge one list into another list` of Singly Linked List  
+  ```c
+  void appendtoSinglylinkedlist(Singlylinkedlist *targetSinglylinkedlist,Singlylinkedlist * sourceSinglylinkedlist,bool *success);
+  ```
+  we have `list_1` and `list_2` of Singlylinkedlist.  
+  for merging `list_1` into `list_2`.  
+  `bool success;`   
+  `appendtoSinglylinkedlist(list_1,list_2,&success);`  
+  if(`success==true`) lists are merged.  
+  if(`success==false`) lists are not merged.  
+
+* To `clear` the Singly Linked List  
+  ```c
+  void clearSinglylinkedlist(Singlylinkedlist *singlylinkedlist);
+  ```
+  use to free (remove) nodes of list (size of list is zero).  
+  `clearSinglylinkedlist(list);`  
+* To `delete/destroy` the Singly Linked List    
+  ```c
+  void destroySinglylinkedlist(Singlylinkedlist *singlylinkedlist);
+  ```
+  use to delete the list.  
+  `destroySinglylinkedlist(list);`  
+  ***  
+
+
+
+
