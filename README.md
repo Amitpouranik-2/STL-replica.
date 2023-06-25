@@ -49,3 +49,162 @@ and many more…
 * Taking array class as a guidance I have created a class named `TMArrayList` which is used to store multiple values in a single variables for each value.
 
 * Taking forward_list class of STL as a guidance I have created a class named `TMForwardList`. Alike forward_list, it implements Singly Linked List. It supports fast insertion and retrieval of elements from anywhere in the list.
+
+ 
+## Array List 
+
+ *  [Macros](#macros-)
+ *  [Iterator Class](#iterator-class)
+ *  [TMLIST ( ABSTRACT CLASS)](#tmlist)
+ * [Generic Singly Linked List](#generic-singly-linked-list)  
+   * [Singly Linked List Iterator](#description-of-iterator-functions-of-singly-linked-list)
+   * [Use of Singly Linked List](#use-of-singly-linked-list-)  
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+## Macros :
+
+* To `create` Macros
+   ```c
+       #define bool int
+       #define true 1
+       #define True 1
+       #define TRUE 1
+       #define False 0
+       #define FALSE 0
+       #define false 0
+    ```
+## Iterator Class
+   
+* To 'add' Iterator Class in  Array List
+  ```c
+   class Iterator
+   {
+   private:
+   int ReleaseIteratorAfterIteration;
+   Iterator *iterator;
+   public:
+   Iterator()
+   {
+   this->ReleaseIteratorAfterIteration=1;
+   this->iterator = NULL;
+   }
+   Iterator( Iterator *iterator)  
+   {
+   this->ReleaseIteratorAfterIteration=1;
+   this->iterator = iterator;
+   }
+   Iterator(const Iterator &other)
+   {
+   this->ReleaseIteratorAfterIteration=1;
+   this->iterator = other.iterator;
+   } 
+   virtual ~Iterator()
+   {
+   if(this->ReleaseIteratorAfterIteration=1) delete this->iterator;
+   }
+
+   void  setReleaseIteratorAfterIteration(int ReleaseIteratorAfterIteration)
+   {
+   this->ReleaseIteratorAfterIteration = ReleaseIteratorAfterIteration; 
+   }
+
+   Iterator & operator=(const Iterator &other)
+   {
+   this->iterator = other.iterator;
+   return *this;
+   } 
+
+   virtual int hasmoreelement()
+   {
+   if(iterator!=NULL) return this->iterator->hasmoreelement();
+   return 0;
+   }
+
+   virtual int next()
+   {
+   if(iterator!=NULL) return  this->iterator->next();
+   return 0;
+   }
+   };
+
+
+    // Iterable Class 
+   class iterable
+   {
+   public:
+   virtual Iterator getiterator()=0;
+   };
+
+  ```
+
+## TMLIST  
+
+
+* To `create` Abstract Class TMList
+   ```c
+        class TMlist
+        {
+        public:
+        virtual void add(  int data , bool *success)=0;
+        virtual void insert(int index, int data, bool *success)=0;
+        virtual void update(int index , int data, bool *success)=0;
+        virtual int get(int index , int *success) const=0;
+        virtual int getsize()const=0 ;
+        virtual int  remove(int index , int  *success)=0;
+        virtual void removeall()=0;
+        virtual void clear()=0;
+        };
+
+
+   ```
+
+## Array List   
+***
+### Description of Main functions :
+
+* To `create` Singlylinkedlist
+   ```c
+   Singlylinkedlist * createSinglylinkedlist(bool *success); 
+   ```
+   `bool success;`  
+    `Singlylinkedlist *list;`  
+    `list=createSinglylinkedlist(&success);`  
+    if(`success==true`) list is created.  
+    if(`success==false`) list is not created.  
+
+
+* To `add` element in Singly Linked List
+  ```c
+  void addtoSinglylinkedlist(Singlylinkedlist *singlylinkedlist,void *ptr,bool *success);
+  ```
+  `bool success;`  
+  `int i=100;`  
+  `addtoSinglylinkedlist(list,(void *)&i,&success);`  
+   if(`success==true`) element is added.  
+   if(`success==false`) element is not added.  
+    
+* To `insert` element in Singly Linked List
+   ```c
+   void insertintoSinglylinkedlist(Singlylinkedlist *singlylinkedlist,int index,void *ptr,bool *success);
+   ```
+  `bool success;`  
+  `int i=100;`  
+  `int index;` (position to insert element in list)  
+  `insertintoSinglylinkedlist(list,index,(void *)&i,&success);`  
+   if(`success==true`) element is inserted.  
+   if(`success==false`) element is not   inserted.  
+
+
+
