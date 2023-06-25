@@ -56,9 +56,9 @@ and many more…
  *  [Macros](#macros-)
  *  [Iterator Class](#iterator-class)
  *  [TMLIST ( ABSTRACT CLASS)](#tmlist)
- * [Generic Singly Linked List](#generic-singly-linked-list)  
-   * [Singly Linked List Iterator](#description-of-iterator-functions-of-singly-linked-list)
-   * [Use of Singly Linked List](#use-of-singly-linked-list-)  
+ * [ Array List Class](#array-list)  
+   * [ Add Row ](#add-row)
+   * [ Add Function](#add)  
 
    
 
@@ -215,126 +215,183 @@ and many more…
 
 * To `add row `  in Array List
   ```c
+    bool TMArrayList :: addrow()
+    {
+    if(capacity%100 == 0)
+    {
+    int numberofpointers;
+    numberofpointers = this->capacity/10;
+    int **tmp = new int *[numberofpointers+10];
+    if(tmp == NULL) return false;
+    for(int e=0; e<numberofpointers; e++)tmp[e] = this->ptr[e];
+    delete []this -> ptr;
+    this-> ptr = tmp;
+    }
+    int i =this->capacity/10;
+    this->ptr[i] = new int[10];
+    if(this->ptr[i]== NULL) return false;
+    this->capacity = this->capacity +10;
+    return true;
+    }
+
+     // CONSTRUCTOR
+
+    
+    TMArrayList :: TMArrayList()
+    {
+    this->ptr = new int *[10];
+    this->ptr[0] = new int[10];
+    this->capacity = 10;
+    this->size = 0;
+    this->allocationFlag = 0;
+    }
+    
+    TMArrayList :: TMArrayList(int buffersize)
+    {
+    this->allocationFlag = 0;
+    if(buffersize<=0)
+    { 
+    this->ptr = new int *[10];
+    this->ptr[0]= new int[10];
+    this->capacity = 10;
+    this->size = 0;
+    }
+    else 
+    {
+    int rows;
+    int numberofpointers;
+    rows = buffersize/10;
+    if(buffersize%10!=0) rows++;
+    numberofpointers = rows +(10 -(rows%10));
+    this->ptr = new int*[numberofpointers];
+    for(int e=0 ; e<rows ; e++)
+    {
+    this->ptr[e] = new int[10];
+    }
+    this->capacity  = rows *10;
+    this->size = 0;
+     }
+     }
+
+
+    ```
+
+
+  ## Add 
+    
+  * To `add` element in Array List
+   ```c
+     void TMArrayList :: add(int data, bool *success) 
+     {
+     if(success) *success=false;
+     if(this->size == this->capacity)
+     {
+     if(!addrow()) return ;
+     }
+     int rowindex , columnindex;
+     rowindex = this->size/10;
+     columnindex = this->size%10;
+     this->ptr[rowindex][columnindex]= data;
+     this->size++;
+     if(success) *success = true;
+      }
+
+     
+     TMArrayList ::TMArrayList(const TMArrayList &other)
+     {
+     this->allocationFlag = 0;
+     int buffersize = other.size;
+     if(buffersize<=0)
+     {
+     this->ptr = new int*[10];
+     this->ptr[0] = new int[10];
+     this->capacity = 10;
+     this->size = 0;
+     }
+     else
+     {
+     int rows;
+     int numberofpointers;
+     rows = buffersize/10;
+     if(buffersize%10!=0) rows++;
+     numberofpointers = rows + (10 - (rows % 10));
+     this->ptr = new int *[numberofpointers];
+     for (int e = 0; e < rows; e++)
+     {
+     this->ptr[e] = new int[10];
+     }
+     this->capacity = rows*10;
+     this->size = 0;
+     }
+     int succ;
+     for(int e=0; e<other.size; e++)
+     {
+     this->add(other.get(e, &succ) ,&succ);
+     }
+     }
+
+
+    
+     ```
+
+  ## Get 
+    
+  * To `get` element from Array List
+   ```c
+
+     int TMArrayList :: get(int index , int *success) const
+     {
+     if(success) *success = false;
+     if( index<0 || index>=this->size) return 0;
+     int rowindex = index/10;
+     int columnindex = index%10;
+     if(success) *success = true; 
+     return ptr[rowindex][columnindex];
+     }
 
   ```
+
+
+   ## Insert 
     
-* To `insert` element in Singly Linked List
+  * To `insert` element in Array List
    ```c
-   void insertintoSinglylinkedlist(Singlylinkedlist *singlylinkedlist,int index,void *ptr,bool *success);
-   ```
+      void TMArrayList:: insert(int index , int data , bool *success)
+      {
+      if(success) *success = false;
+      if(index < 0 || index>this->size) return;
+      if(index == this->size)
+      {
+      this->add(data , success);
+      return;
+      }
+      bool succ;
+      int k = this->get(this->size-1 , &succ);
+      this->add(k ,&succ);
+      if(succ== false);
+      int j;
+      j = this->size-3;
+      while(j>=index)
+      {
+      this->update(j+1, this->get(j,&succ), &succ);
+      j--;
+       }
+      this->update(index ,data, &succ);
+     
+      if(success )  *success = true;
+      }
+     
 
-bool TMArrayList :: addrow()
-{
-if(capacity%100 == 0)
-{
-int numberofpointers;
-numberofpointers = this->capacity/10;
-int **tmp = new int *[numberofpointers+10];
-if(tmp == NULL) return false;
-for(int e=0; e<numberofpointers; e++)tmp[e] = this->ptr[e];
-delete []this -> ptr;
-this-> ptr = tmp;
-}
-int i =this->capacity/10;
-this->ptr[i] = new int[10];
-if(this->ptr[i]== NULL) return false;
-this->capacity = this->capacity +10;
-return true;
-}
+  ```
 
-TMArrayList :: TMArrayList()
-{
-this->ptr = new int *[10];
-this->ptr[0] = new int[10];
-this->capacity = 10;
-this->size = 0;
-this->allocationFlag = 0;
-}
-TMArrayList :: TMArrayList(int buffersize)
-{
-this->allocationFlag = 0;
-if(buffersize<=0)
-{
-this->ptr = new int *[10];
-this->ptr[0]= new int[10];
-this->capacity = 10;
-this->size = 0;
-}
-else 
-{
-int rows;
-int numberofpointers;
-rows = buffersize/10;
-if(buffersize%10!=0) rows++;
-numberofpointers = rows +(10 -(rows%10));
-this->ptr = new int*[numberofpointers];
-for(int e=0 ; e<rows ; e++)
-{
-this->ptr[e] = new int[10];
-}
-this->capacity  = rows *10;
-this->size = 0;
-}
-}
-void TMArrayList :: add(int data, bool *success)
-{
-if(success) *success=false;
-if(this->size == this->capacity)
-{
-if(!addrow()) return ;
-}
-int rowindex , columnindex;
-rowindex = this->size/10;
-columnindex = this->size%10;
-this->ptr[rowindex][columnindex]= data;
-this->size++;
-if(success) *success = true;
-}
+ ## Insert 
+    
+  * To `insert` element in Array List
+   ```c
+   
 
-
-TMArrayList ::TMArrayList(const TMArrayList &other)
-{
-this->allocationFlag = 0;
-int buffersize = other.size;
-if(buffersize<=0)
-{
-this->ptr = new int*[10];
-this->ptr[0] = new int[10];
-this->capacity = 10;
-this->size = 0;
-}
-else
-{
-int rows;
-int numberofpointers;
-rows = buffersize/10;
-if(buffersize%10!=0) rows++;
-numberofpointers = rows + (10 - (rows % 10));
-this->ptr = new int *[numberofpointers];
-for (int e = 0; e < rows; e++)
-{
-this->ptr[e] = new int[10];
-}
-this->capacity = rows*10;
-this->size = 0;
-}
-int succ;
-for(int e=0; e<other.size; e++)
-{
-this->add(other.get(e, &succ) ,&succ);
-}
-}
-
-int TMArrayList :: get(int index , int *success) const
-{
-if(success) *success = false;
-if( index<0 || index>=this->size) return 0;
-int rowindex = index/10;
-int columnindex = index%10;
-if(success) *success = true;
-return ptr[rowindex][columnindex];
-}
-
+   
+ 
 TMArrayList:: TMArrayList(const TMlist &other)
 {
 this->ptr= new int*[10];
@@ -446,47 +503,6 @@ return k;
 }
 
 
-void TMArrayList:: insert(int index , int data , bool *success)
-{
-if(success) *success = false;
-if(index < 0 || index>this->size) return;
-if(index == this->size)
-{
-this->add(data , success);
-return;
-}
-bool succ;
-int k = this->get(this->size-1 , &succ);
-this->add(k ,&succ);
-if(succ== false);
-int j;
-j = this->size-3;
-while(j>=index)
-{
-this->update(j+1, this->get(j,&succ), &succ);
-j--;
-}
-this->update(index ,data, &succ);
-if(success )  *success = true;
-}
-
-int  TMArrayList:: remove( int index , int *success)
-{
-if(success) *success = false;
-if(index<0 || index>=size) return 0;
-bool succ;
-int data = this->get(index, &succ);
-int j;
-int ep = this->size-2;
-j =index;
-while(j<=ep)
-{
-this->update(j, this->get(j+1 , &succ), &succ);
-j++;
-}
-this->size--;
-if(success) *success = true;
-}
 
 
 void TMArrayList :: update( int index , int data , bool *success)
