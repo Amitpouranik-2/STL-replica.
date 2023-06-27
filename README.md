@@ -65,7 +65,8 @@ and many more…
    * [ Remove All Function](#remove-all)
 
 * [ Operators](#operators)  
-   
+* [Internal Structure Of Array List](#internal-structure-of-array-list)  
+
      
    
    
@@ -559,6 +560,11 @@ and many more…
    ```
 
 
+
+## Internal Structure Of Array List 
+
+
+  ![Picture1](https://github.com/Amitpouranik-2/STL-replica./assets/109301830/a651e4ed-3c80-4773-af69-da38313d204b)
 
 
 
