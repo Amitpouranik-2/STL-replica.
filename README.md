@@ -50,8 +50,7 @@ and many more…
 
 * Taking forward_list class of STL as a guidance I have created a class named `TMForwardList`. Alike forward_list, it implements Singly Linked List. It supports fast insertion and retrieval of elements from anywhere in the list.
 
- 
-## Array List 
+ ## Array List 
 
  *  [Macros](#macros-)
  *  [Iterator Class](#iterator-class)
@@ -276,7 +275,6 @@ and many more…
 
     ```
 
-
   ## Add 
     
   * To `add` element in Array List
@@ -333,8 +331,8 @@ and many more…
 
     
      ```
-
-  ## Get 
+ 
+ ## Get 
     
   * To `get` element from Array List
    ```c
@@ -352,7 +350,7 @@ and many more…
   ```
 
 
-   ## Insert 
+## Insert 
     
   * To `insert` element in Array List
    ```c
@@ -384,151 +382,180 @@ and many more…
 
   ```
 
- ## Insert 
+ ## Update  
     
-  * To `insert` element in Array List
+  * To `update` element in Array List
    ```c
-   
+
+     void TMArrayList :: update( int index , int data , bool *success)
+     {
+     if(success) *success = false;
+     if(index<0 || index>=size) return ;
+     int rowindex = index/10;
+     int columnindex = index%10;
+     this->ptr[rowindex][columnindex] = data;
+     if(success) *success = true;
+     }
+   ```
+
+
+ ## Get Size  
+    
+  * To `get Size`  of element in Array List
+   ```c
+
+     int TMArrayList :: getsize()const
+      {
+      return this->size;
+      }
+
+ ```
+
+
+ ## Remove All  
+    
+  * To ` remove ` all element from Array List
+   ```c
+
+
+    void  TMArrayList :: removeall()
+    {
+    this->size = 0;
+    }
+
+   ```
+
+## Operators  
+    
+   ```c
+   TMArrayList:: TMArrayList(const TMlist &other)
+    {
+    this->ptr= new int*[10];
+    this->ptr[0] = new int[10];
+    this->capacity = 0;
+    this->size =0;
+    this->allocationFlag = 0;
+    int e;
+    int succ;
+    for(e=0; e<other.getsize(); e++)
+    {
+    this->add(other.get(e, &succ), &succ);
+     }
+     }
+
+ 
+    TMArrayList:: ~TMArrayList()
+    {
+    if(this->allocationFlag == 0)
+    {
+    int rows = this->capacity/10;
+    int j;
+    for(j=0; j<rows; j++)
+    {
+    delete [] this->ptr[j];
+    }
+    delete[] this->ptr;
+    }
+    }
+
+
+    TMArrayList & TMArrayList :: operator=(const TMArrayList &other)
+    {
+    if(this->allocationFlag == 0)
+    {
+    this->size = 0;
+    int succ;
+    for(int e=0; e<other.size; e++)
+    {
+    this->add(other.get(e,&succ),&succ);
+    }
+    }
+    else
+    {
+    int rows = this->capacity/10;
+    int j;
+    for(j=0; j<rows; j++)
+    {
+    delete [] this->ptr[j];
+    }
+    delete[] this->ptr;
+    this->ptr = other.ptr;
+    this->capacity = other.capacity;
+    this->size = other.size;
+    }
+    return *this;
+    }
+
+
+
+    TMArrayList & TMArrayList :: operator=(const TMlist &other)
+    {
+    this->size = 0;
+    int e;
+    int succ;
+    for(e=0; e<other.getsize(); e++)
+    {
+    this->add(other.get(e ,&succ), &succ);
+    }
+    return *this;
+    }
+
+    void  TMArrayList :: operator+=(const TMArrayList &other)
+    {
+    int succ;
+    for(int e=0; e<other.size; e++)
+    {
+    this->add(other.get(e,&succ),&succ);
+    }
+    }
+
+
+    void  TMArrayList :: operator+=(const TMlist &other)
+    {
+    int succ;
+    int e;
+    for(e=0; e<other.getsize(); e++)
+    {
+    this->add(other.get(e,&succ), &succ);
+    }
+    }
+
+
+    TMArrayList   TMArrayList :: operator+(const  TMArrayList &other)
+    {
+    TMArrayList k;
+    int succ ;
+    for(int e=0; e<this->size; e++) k.add(this->get(e, &succ), &succ);
+    for(int e=0; e<other.size; e++) k.add(other.get(e,&succ) ,&succ);
+    return k;
+    }
+
+
+    TMArrayList   TMArrayList :: operator+(const  TMlist &other)
+    {
+    TMArrayList k;
+    int succ ;
+    for(int e=0; e<this->size; e++) k.add(this->get(e, &succ), &succ);
+    for(int e=0; e<other.getsize(); e++) k.add(other.get(e,&succ) ,&succ);
+    return k;
+    }
+
+   ```
+
+
+
+
+
+
+
+
+
 
    
  
-TMArrayList:: TMArrayList(const TMlist &other)
-{
-this->ptr= new int*[10];
-this->ptr[0] = new int[10];
-this->capacity = 0;
-this->size =0;
-this->allocationFlag = 0;
-int e;
-int succ;
-for(e=0; e<other.getsize(); e++)
-{
-this->add(other.get(e, &succ), &succ);
-}
-} 
-TMArrayList:: ~TMArrayList()
-{
-if(this->allocationFlag == 0)
-{
-int rows = this->capacity/10;
-int j;
-for(j=0; j<rows; j++)
-{
-delete [] this->ptr[j];
-}
-delete[] this->ptr;
-}
-}
-
-
-TMArrayList & TMArrayList :: operator=(const TMArrayList &other)
-{
-if(this->allocationFlag == 0)
-{
-this->size = 0;
-int succ;
-for(int e=0; e<other.size; e++)
-{
-this->add(other.get(e,&succ),&succ);
-}
-}
-else
-{
-int rows = this->capacity/10;
-int j;
-for(j=0; j<rows; j++)
-{
-delete [] this->ptr[j];
-}
-delete[] this->ptr;
-this->ptr = other.ptr;
-this->capacity = other.capacity;
-this->size = other.size;
-}
-return *this;
-}
-
-
-
-TMArrayList & TMArrayList :: operator=(const TMlist &other)
-{
-this->size = 0;
-int e;
-int succ;
-for(e=0; e<other.getsize(); e++)
-{
-this->add(other.get(e ,&succ), &succ);
-}
-return *this;
-}
-
-void  TMArrayList :: operator+=(const TMArrayList &other)
-{
-int succ;
-for(int e=0; e<other.size; e++)
-{
-this->add(other.get(e,&succ),&succ);
-}
-}
-
-
-void  TMArrayList :: operator+=(const TMlist &other)
-{
-int succ;
-int e;
-for(e=0; e<other.getsize(); e++)
-{
-this->add(other.get(e,&succ), &succ);
-}
-}
-
-
-TMArrayList   TMArrayList :: operator+(const  TMArrayList &other)
-{
-TMArrayList k;
-int succ ;
-for(int e=0; e<this->size; e++) k.add(this->get(e, &succ), &succ);
-for(int e=0; e<other.size; e++) k.add(other.get(e,&succ) ,&succ);
-return k;
-}
-
-
-TMArrayList   TMArrayList :: operator+(const  TMlist &other)
-{
-TMArrayList k;
-int succ ;
-for(int e=0; e<this->size; e++) k.add(this->get(e, &succ), &succ);
-for(int e=0; e<other.getsize(); e++) k.add(other.get(e,&succ) ,&succ);
-return k;
-}
 
 
 
 
-void TMArrayList :: update( int index , int data , bool *success)
-{
-if(success) *success = false;
-if(index<0 || index>=size) return ;
-int rowindex = index/10;
-int columnindex = index%10;
-this->ptr[rowindex][columnindex] = data;
-if(success) *success = true;
-}
-
-
-int TMArrayList :: getsize()const
-{
-return this->size;
-}
-
-void   TMArrayList :: clear()
-{
-this->size =0;
-}
-
-void  TMArrayList :: removeall()
-{
- this->size = 0;
-}
 
 
