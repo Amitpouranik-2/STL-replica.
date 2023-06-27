@@ -58,7 +58,17 @@ and many more…
  * [ Array List Class](#array-list)  
    * [ Add Row ](#add-row)
    * [ Add Function](#add)  
+   * [ Get Function](#get)  
+   * [ Insert Function](#insert)  
+   * [ Update Function](#update)
+   * [ GET Size Function](#get-size)
+   * [ Remove All Function](#remove-all)
 
+* [ Operators](#operators)  
+   
+     
+   
+   
    
 
 
@@ -332,7 +342,7 @@ and many more…
     
      ```
  
- ## Get 
+   ## Get 
     
   * To `get` element from Array List
    ```c
@@ -349,8 +359,8 @@ and many more…
 
   ```
 
-
-## Insert 
+  
+  ##  Insert 
     
   * To `insert` element in Array List
    ```c
@@ -380,9 +390,9 @@ and many more…
       }
      
 
-  ```
+   ```
 
- ## Update  
+  ## Update  
     
   * To `update` element in Array List
    ```c
@@ -399,7 +409,7 @@ and many more…
    ```
 
 
- ## Get Size  
+  ## Get Size  
     
   * To `get Size`  of element in Array List
    ```c
@@ -409,26 +419,31 @@ and many more…
       return this->size;
       }
 
- ```
+  ```
 
 
- ## Remove All  
+  ## Remove All  
     
   * To ` remove ` all element from Array List
    ```c
-
+0
 
     void  TMArrayList :: removeall()
     {
     this->size = 0;
     }
 
-   ```
+    ```
+
 
 ## Operators  
     
    ```c
-   TMArrayList:: TMArrayList(const TMlist &other)
+
+   // Construtor 
+
+   
+    TMArrayList:: TMArrayList(const TMlist &other)
     {
     this->ptr= new int*[10];
     this->ptr[0] = new int[10];
@@ -443,7 +458,7 @@ and many more…
      }
      }
 
- 
+      // Destructor
     TMArrayList:: ~TMArrayList()
     {
     if(this->allocationFlag == 0)
@@ -500,6 +515,7 @@ and many more…
     return *this;
     }
 
+   
     void  TMArrayList :: operator+=(const TMArrayList &other)
     {
     int succ;
