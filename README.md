@@ -50,11 +50,16 @@ and many more…
 
 * Taking forward_list class of STL as a guidance I have created a class named `TMForwardList`. Alike forward_list, it implements Singly Linked List. It supports fast insertion and retrieval of elements from anywhere in the list.
 
- ## Array List 
+## TM LIST 
 
- *  [Macros](#macros-)
- *  [Iterator Class](#iterator-class)
- *  [TMLIST ( ABSTRACT CLASS)](#tmlist)
+   *  [Macros](#macros-)
+   *  [Iterator Class](#iterator-class)
+   *  [TMLIST ( ABSTRACT CLASS)](#tmlist)
+
+ 
+ 
+## Array List 
+
  * [ Array List Class](#array-list)  
    * [ Add Row ](#add-row)
    * [ Add Function](#add)  
@@ -63,12 +68,23 @@ and many more…
    * [ Update Function](#update)
    * [ GET Size Function](#get-size)
    * [ Remove All Function](#remove-all)
-
-* [ Operators](#operators)  
-* [Internal Structure Of Array List](#internal-structure-of-array-list)  
+   * [ Operators](#operators)  
+   * [Internal Structure Of Array List](#internal-structure-of-array-list)  
 
      
+ ## Forward List 
    
+   * [ Forward List Class](#forward-list)  
+   * [ Add Row ](#add-row) 
+   * [ Add Function](#add)  
+   * [ Get Function](#get)  
+   * [ Insert Function](#insert)  
+   * [ Update Function](#update)
+   * [ GET Size Function](#get-size)
+   * [ Remove All Function](#remove-all)
+   * [ Operators](#operators)  
+   * [Internal Structure Of Array List](#internal-structure-of-array-list)  
+
    
    
 
@@ -427,8 +443,6 @@ and many more…
     
   * To ` remove ` all element from Array List
    ```c
-0
-
     void  TMArrayList :: removeall()
     {
     this->size = 0;
@@ -568,6 +582,492 @@ and many more…
 
 
 
+
+## Forward List   
+***
+### Description of Forward List functions :
+
+* To `create` ForwardList Class
+   ```c
+     class TMForwardList : public TMlist
+      {
+      class TMNode
+      {
+      public:
+      int data;
+      TMNode *next;
+      TMNode()
+      {
+      this->next = NULL;
+      }
+      };
+      private:
+      char  allocationflag;
+      TMNode *start, *end;
+      int size;
+      public:
+      class TMForwardlistIterator : public Iterator 
+      {
+      TMNode *ptr;
+      public:
+      TMForwardlistIterator()
+      {
+      this->ptr = NULL;
+      }
+   
+      TMForwardlistIterator(TMNode *ptr)
+      {
+      this->ptr = ptr;
+      }
+   
+      TMForwardlistIterator(const TMForwardlistIterator &other)
+      {  
+      this->ptr = other.ptr;
+      }
+
+      TMForwardlistIterator & operator=(const TMForwardlistIterator  &other)
+      {
+      this->ptr = other.ptr;
+      return *this;
+      }
+
+      int hasmoreelement()
+      {
+      return this->ptr!= NULL; 
+      }
+
+
+      int next()
+      {
+      if(this->ptr==NULL) return 0;
+      int data = this->ptr->data;
+      this->ptr = this->ptr->next;
+      return data;
+      }
+      };
+
+      public:
+      Iterator getiterator()
+      { 
+      TMForwardlistIterator *tmforwardlistiterator;
+      tmforwardlistiterator =new TMForwardlistIterator(this->start);
+      Iterator k(tmforwardlistiterator);
+      k.setReleaseIteratorAfterIteration(0);
+      return k;
+      }
+
+      TMForwardList();
+      TMForwardList(int buffersize);
+      TMForwardList(const TMForwardList &other);
+      TMForwardList(const TMlist &other);
+      TMForwardList & operator=(const TMForwardList &other);
+      TMForwardList & operator=(const TMlist &other);
+      TMForwardList operator+(const TMForwardList &other);
+      TMForwardList operator+(const TMlist &other);
+      void  operator+=(const TMForwardList &other);
+      void  operator+=(const TMlist &other);
+      virtual ~TMForwardList();
+      void add( int data , bool *success);
+      void insert(int index , int data , bool *success);
+      void update(int index, int data , bool *success);
+      int  get(int index , int *success)const;
+      int getsize()const ;
+      void clear();
+      void removeall();
+      int remove(int index , int *success);
+      };
+     
+
+    ```
+## Add Row 
+   
+
+* To `add row `  in Forward List
+  ```c
+   
+   TMForwardList::TMForwardList()
+   {
+   this->start = NULL;
+   this->end = NULL;
+   this->size = 0;
+   this->allocationflag =0;
+   }
+  
+  TMForwardList::TMForwardList(int buffersize)
+   {
+   this->start = NULL;
+   this->end = NULL;
+   this->size =0;
+   this->allocationflag=0;
+   }
+    
+
+    ```
+
+
+
+
+## Get 
+    
+  * To `get` element from Forward List
+   ```c
+     int  TMForwardList:: get(int index , int *success)const
+     {
+     if(success ) *success = false;
+     if(index< 0 || index > this->size) return 0;
+     TMNode *t;
+     int x;
+     t = this->start;
+     for(x=0; x<index; x++) t= t->next;
+     if(success) *success = true;
+     return t->data; 
+     }
+
+   ```
+
+  
+##  Insert 
+    
+  * To `insert` element in Forward List
+   ```c
+
+    void TMForwardList:: insert(int index , int data , bool *success)
+    {
+    if(success) *success = false;
+    if(index<0 || index > this->size) return ;
+    if(index == this->size)
+    {
+    this->add(data, success);
+    return;
+    }
+    TMNode *gg;
+    gg = new TMNode; 
+    if(gg== NULL) return;
+    gg->data =data;
+    int x;
+    TMNode *t, *j;
+    t=this->start;
+    for(x=0; x<index; x++)
+    {
+    j=t;
+    t=t->next;
+    }
+    if(t== this->start)
+    {
+    gg->next = this->start;
+    this->start = gg;
+    }
+    else
+    {
+    gg->next = t;
+    j->next= gg;
+    }
+    this->size++;
+    if(success) *success = true;
+    }
+
+      
+   ```
+
+  ## Update  
+    
+  * To `update` element in Forward List
+   ```c
+      void  TMForwardList:: update(int index, int data , bool *success)
+      { 
+      if(success) *success = false;
+      if(index<0 || index >= this->size) return;
+      TMNode *t;
+      int x;
+      t=this->start;
+      for( x=0; x<index; x++ ) t=t->next;
+      t->data = data;
+      if(success) *success = true;
+      }
+
+   ```
+ 
+
+  ## Get Size  
+    
+  * To `get Size`  of element in Forward List
+   ```c
+      int  TMForwardList:: getsize() const
+      {
+      return this->size;
+      }
+
+
+  ```
+
+
+  ## Clear  
+    
+  * To ` clear` all element from Forward List
+   ```c
+      void  TMForwardList:: clear()
+      {
+      TMNode *t;
+      while(this->start!=NULL)
+      {
+      t= this->start;
+      this->start = this->start->next;
+      delete t;
+      } 
+      this->end= NULL;
+      this->size= 0;
+      }
+
+    
+        
+  ```
+
+
+ ## Clear  
+    
+  * To ` clear` all element from Forward List
+   ```c
+      void  TMForwardList:: clear()
+      {
+      TMNode *t;
+      while(this->start!=NULL)
+      {
+      t= this->start;
+      this->start = this->start->next;
+      delete t;
+      } 
+      this->end= NULL;
+      this->size= 0;
+      }
+
+    
+        
+  ```
+
+
+
+## Remove  
+    
+  * To ` remove`  element from Forward List
+   ```c
+      int TMForwardList::remove(int index, int *success)
+      {
+      int data =0;
+      if(success) *success = false;
+      if(index<0 || index>=this->size) return data ;
+      TMNode *t, *j;
+      int x;
+      t=this->start;
+      for(x=0; x<=index; x++)
+      {
+      j=t;
+      t=t->next;
+      }
+      data = t->data;
+      if(t==this->start && t==this->end)
+      {
+      this->start = this->end = NULL;
+      }
+      else if(t==this->start)
+      {
+      this->start = this->start->next;
+      }
+      else if(t== this->end)
+      {
+      j->next= NULL;
+      this->end = j;
+      }
+      else
+      {
+      j->next =t->next;
+      }
+      this->size--;
+      delete t;
+      if(success) *success = true;
+      return data;
+      }
+
+      
+    
+       
+    ```
+
+
+
+
+
+
+    
+
+## Operators  
+    
+   ```c
+       TMForwardList  & TMForwardList::  operator=(const TMForwardList &other)
+       {
+       this->clear();
+       if(other.allocationflag == 1)
+       { 
+       this->size = other.size;
+       this->start = other.start;
+       this->end = other.end;
+       }
+       else
+       {
+       int succ;
+       for(int e=0; e<other.getsize(); e++)
+       {
+       this->add(other.get(e, &succ), &succ);
+       }
+       }
+       return *this;
+       }
+
+       TMForwardList  & TMForwardList::  operator=(const TMlist &other)
+       { 
+       this->clear();
+       int succ;
+       for(int e=0; e<other.getsize(); e++)
+       {
+       this->add(other.get(e, &succ), &succ);
+       }
+       return *this;
+       }
+
+
+      TMForwardList TMForwardList ::operator+(const TMForwardList &other)
+      {
+      TMForwardList k;
+      k+=(*this);
+      k+=other;
+      return  k;
+      }
+
+      TMForwardList TMForwardList ::operator+(const TMlist &other)
+      {
+      TMForwardList k;
+      k+=(*this);
+      k+=other;
+      return  k;
+      }
+
+
+
+      void TMForwardList :: operator+=(const TMForwardList &other)
+      {
+      int k;
+      for (int e = 0; e < other.getsize(); e++) this->add(other.get(e, &k), &k);
+      }
+
+      void TMForwardList :: operator+=(const TMlist &other)
+      {
+      int k;
+      for (int e = 0; e < other.getsize(); e++) this->add(other.get(e, &k), &k);
+      }
+
+      TMForwardList:: ~TMForwardList()
+      {
+      if(this->allocationflag == 0)
+      {
+      this->clear();
+      }
+      }
+
+
+   
+
+   ```
+
+
+
+## Internal Structure Of Array List 
+
+
+  ![Picture1](https://github.com/Amitpouranik-2/STL-replica./assets/109301830/a651e4ed-3c80-4773-af69-da38313d204b)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main()
+{
+cout<<"------------------forward list ---------"<<endl;
+TMForwardList list1;
+int  k;
+list1.add(100,&k);
+list1.add(200,&k);
+list1.add(2200,&k);
+list1.add(3100,&k);
+list1.add(3300,&k);
+list1.add(13300,&k);
+Iterator iterator1=list1.getiterator();
+Iterator iterator2=list1.getiterator();
+Iterator iterator3=list1.getiterator();
+
+cout<<iterator1.next()<<endl;
+cout<<iterator2.next()<<endl;
+cout<<iterator3.next()<<endl;
+cout<<"-------------------------------------------------------"<<endl;
+cout<<iterator1.next()<<endl;
+cout<<iterator2.next()<<endl;
+cout<<iterator3.next()<<endl;
+
+cout<<"------------------Array list ---------"<<endl;
+TMArrayList list2;
+
+list2.add(100,&k);
+list2.add(200,&k);
+list2.add(2200,&k);
+list2.add(3100,&k);
+list2.add(3300,&k);
+list2.add(13300,&k);
+cout<<"bbbbb"<<endl;
+iterator1=list2.getiterator();
+iterator2=list2.getiterator();
+cout<<"aaaaaa"<<endl;
+iterator3=list2.getiterator();
+cout<<iterator1.next()<<endl;
+cout<<iterator2.next()<<endl;
+cout<<iterator3.next()<<endl;
+cout<<"-------------------------------------------------------"<<endl;
+cout<<iterator1.next()<<endl;
+cout<<iterator2.next()<<endl;
+cout<<iterator3.next()<<endl;
+
+return 0;
+}
 
 
 
