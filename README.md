@@ -75,17 +75,23 @@ and many more…
  ## Forward List 
    
    * [ Forward List Class](#forward-list)  
-   * [ Add Row ](#add-row) 
-   * [ Add Function](#add)  
-   * [ Get Function](#get)  
-   * [ Insert Function](#insert)  
-   * [ Update Function](#update)
-   * [ GET Size Function](#get-size)
-   * [ Remove All Function](#remove-all)
-   * [ Operators](#operators)  
-   * [Internal Structure Of Array List](#internal-structure-of-array-list)  
+     * [ Add Row ](#add-row) 
+     * [ Add Function](#add)  
+     * [ Get Function](#get)  
+     * [ Insert Function](#insert)  
+     * [ Update Function](#update)
+     * [ GET Size Function](#get-size)
+     * [ Remove All Function](#remove-all)
+     * [Remove Function](#remove)
+     * [ Operators](#operators)  
+     * [Internal Structure Of Forward List](#internal-structure-of-forward-list)  
 
    
+ ## TestCases 
+   
+  * [ Array List Testcase ](#array-list-testcase) 
+  * [ Forward List Testcase ](#forward-list-testcase)  
+     
    
 
 
@@ -685,15 +691,15 @@ and many more…
 * To `add row `  in Forward List
   ```c
    
-   TMForwardList::TMForwardList()
-   {
-   this->start = NULL;
-   this->end = NULL;
-   this->size = 0;
-   this->allocationflag =0;
-   }
+    TMForwardList::TMForwardList()
+    {
+    this->start = NULL;
+    this->end = NULL;
+    this->size = 0;
+    this->allocationflag =0;
+    }
   
-  TMForwardList::TMForwardList(int buffersize)
+   TMForwardList::TMForwardList(int buffersize)
    {
    this->start = NULL;
    this->end = NULL;
@@ -709,7 +715,7 @@ and many more…
 
 ## Get 
     
-  * To `get` element from Forward List
+* To `get` element from Forward List
    ```c
      int  TMForwardList:: get(int index , int *success)const
      {
@@ -728,7 +734,7 @@ and many more…
   
 ##  Insert 
     
-  * To `insert` element in Forward List
+* To `insert` element in Forward List
    ```c
 
     void TMForwardList:: insert(int index , int data , bool *success)
@@ -769,7 +775,7 @@ and many more…
       
    ```
 
-  ## Update  
+## Update  
     
   * To `update` element in Forward List
    ```c
@@ -797,13 +803,12 @@ and many more…
       return this->size;
       }
 
-
   ```
 
 
   ## Clear  
     
-  * To ` clear` all element from Forward List
+   * To ` clear` all element from Forward List
    ```c
       void  TMForwardList:: clear()
       {
@@ -822,34 +827,13 @@ and many more…
         
   ```
 
-
- ## Clear  
-    
-  * To ` clear` all element from Forward List
-   ```c
-      void  TMForwardList:: clear()
-      {
-      TMNode *t;
-      while(this->start!=NULL)
-      {
-      t= this->start;
-      this->start = this->start->next;
-      delete t;
-      } 
-      this->end= NULL;
-      this->size= 0;
-      }
-
-    
-        
-  ```
 
 
 
 ## Remove  
     
   * To ` remove`  element from Forward List
-   ```c
+    ```c
       int TMForwardList::remove(int index, int *success)
       {
       int data =0;
@@ -890,17 +874,11 @@ and many more…
       
     
        
-    ```
+      ```
 
-
-
-
-
-
-    
-
-## Operators  
-    
+ 
+ ## Operators  
+     
    ```c
        TMForwardList  & TMForwardList::  operator=(const TMForwardList &other)
        {
@@ -979,105 +957,72 @@ and many more…
 
 
 
-## Internal Structure Of Array List 
+## Internal Structure Of Forward List 
+
+  ![Picture2](https://github.com/Amitpouranik-2/STL-replica./assets/109301830/eeda6741-f433-4d41-8514-c6f86a116fe7)
 
 
-  ![Picture1](https://github.com/Amitpouranik-2/STL-replica./assets/109301830/a651e4ed-3c80-4773-af69-da38313d204b)
+##Testcases
 
+  
+## Array List Testcase  
+    
+   ```c
+    int main ()
+    {
+    TMArrayList list2;
 
+    list2.add(100,&k);
+    list2.add(200,&k);
+    list2.add(2200,&k);
+    list2.add(3100,&k);
+    list2.add(3300,&k);
+    list2.add(13300,&k);
+    cout<<"bbbbb"<<endl;
+    iterator1=list2.getiterator();
+    iterator2=list2.getiterator();
+    cout<<"aaaaaa"<<endl;
+    iterator3=list2.getiterator();
+    cout<<iterator1.next()<<endl;
+    cout<<iterator2.next()<<endl;
+    cout<<iterator3.next()<<endl;
+    cout<<iterator1.next()<<endl;
+    cout<<iterator2.next()<<endl;
+    cout<<iterator3.next()<<endl;
+    return 0;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int main()
-{
-cout<<"------------------forward list ---------"<<endl;
-TMForwardList list1;
-int  k;
-list1.add(100,&k);
-list1.add(200,&k);
-list1.add(2200,&k);
-list1.add(3100,&k);
-list1.add(3300,&k);
-list1.add(13300,&k);
-Iterator iterator1=list1.getiterator();
-Iterator iterator2=list1.getiterator();
-Iterator iterator3=list1.getiterator();
-
-cout<<iterator1.next()<<endl;
-cout<<iterator2.next()<<endl;
-cout<<iterator3.next()<<endl;
-cout<<"-------------------------------------------------------"<<endl;
-cout<<iterator1.next()<<endl;
-cout<<iterator2.next()<<endl;
-cout<<iterator3.next()<<endl;
-
-cout<<"------------------Array list ---------"<<endl;
-TMArrayList list2;
-
-list2.add(100,&k);
-list2.add(200,&k);
-list2.add(2200,&k);
-list2.add(3100,&k);
-list2.add(3300,&k);
-list2.add(13300,&k);
-cout<<"bbbbb"<<endl;
-iterator1=list2.getiterator();
-iterator2=list2.getiterator();
-cout<<"aaaaaa"<<endl;
-iterator3=list2.getiterator();
-cout<<iterator1.next()<<endl;
-cout<<iterator2.next()<<endl;
-cout<<iterator3.next()<<endl;
-cout<<"-------------------------------------------------------"<<endl;
-cout<<iterator1.next()<<endl;
-cout<<iterator2.next()<<endl;
-cout<<iterator3.next()<<endl;
-
-return 0;
-}
-
-
-
-
-
-   
+    
+        
+  ```
  
 
 
+## Forward List Testcase  
+    
+   ```c
+   int main()
+   {
+   TMForwardList list1;
+   int  k;
+   list1.add(100,&k);
+   list1.add(200,&k);
+   list1.add(2200,&k);
+   list1.add(3100,&k);
+   list1.add(3300,&k);
+   list1.add(13300,&k);
+   Iterator iterator1=list1.getiterator();
+   Iterator iterator2=list1.getiterator();
+   Iterator iterator3=list1.getiterator();
 
-
-
+   cout<<iterator1.next()<<endl;
+   cout<<iterator2.next()<<endl;
+   cout<<iterator3.next()<<endl;
+   cout<<iterator1.next()<<endl;
+   cout<<iterator2.next()<<endl;
+   cout<<iterator3.next()<<endl;
+    
+    
+        
+  ```
 
